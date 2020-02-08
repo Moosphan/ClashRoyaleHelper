@@ -1,0 +1,51 @@
+{
+  "appName": "RoyaleBox",
+
+  "unknownText": "Unknown",
+  "scanMore": "View More",
+
+  "homeCardsTitle": "Cards",
+  "homePlayerRankTitle": "Players",
+  "homeNewsTitle": "News",
+  "homeTournamentTitle": "Matches",
+  "homeClanRankTitle": "Clans",
+
+  "playerRankTopPlayerTitle": "Top Players",
+
+  "clanRankTopClanTitle": "Top Clans",
+
+  "locationTitle": "Select the Area",
+
+  "playerDetailTag": "Tag",
+  "playerDetailClickCopy": "Click to copy",
+  "playerDetailUpcomingChests": "Upcoming chests",
+  "playerDetailBasicInfo": "Basic Stats",
+  "playerDetailNext": "Next",
+  "playerDetailCurrentTrophies": "Current Trophies",
+  "playerDetailClanWarStats": "Clan War Stats",
+  "playerDetailWins": "wins",
+  "playerDetailThreeCrownWins": "Three Crown Wins",
+  "playerDetailHighestTrophies": "Highest Trophies",
+  "playerDetailCollectedCards": "Cards Found",
+  "playerDetailTotalDonations": "Total Donations",
+  "playerDetailCurrentFavoriteCard": "Current Favorite Card",
+  "playerDetailWinRate": "Win Rate",
+  "playerDetailWarDayWins": "War Day Wins",
+  "playerDetailClanCardsCollected": "Clan Cards Collected",
+  "playerDetailChallengeStats": "Challenge Stats",
+  "playerDetailTournamentStats": "Tournament Stats",
+  "playerDetailMaxWins": "Max Wins",
+  "playerDetailCardWins": "Cards Won",
+  "playerDetailTournamentTimes": "Tournaments Played",
+  "playerDetailTournamentWins": "Tournaments Wins",
+  "playerDetailCardsStats": "Cards Stats",
+  "playerDetailPocketCards": "Collected Cards",
+  "playerDetailCurrentDeck": "Current Deck",
+  "playerDetailBattleRecord": "Battle Stats",
+
+  "roleLeader": "Leader",
+  "roleCoLeader": "Co-leader",
+  "roleElder": "Elder",
+  "roleMember": "Member"
+
+}

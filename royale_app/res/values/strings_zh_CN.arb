@@ -1,0 +1,51 @@
+{
+  "appName": "皇室数据盒子",
+
+  "unknownText": "未知",
+  "scanMore": "查看更多",
+
+  "homeCardsTitle": "卡组",
+  "homePlayerRankTitle": "玩家",
+  "homeNewsTitle": "资讯",
+  "homeTournamentTitle": "锦标赛",
+  "homeClanRankTitle": "部落",
+
+  "playerRankTopPlayerTitle": "顶级玩家",
+
+  "clanRankTopClanTitle": "顶级部落",
+
+  "locationTitle": "选择一个地区",
+
+  "playerDetailTag": "标签",
+  "playerDetailClickCopy": "点击复制",
+  "playerDetailUpcomingChests": "即将来临的宝箱",
+  "playerDetailBasicInfo": "基本统计",
+  "playerDetailNext": "下一个",
+  "playerDetailCurrentTrophies": "当前奖杯",
+  "playerDetailClanWarStats": "部落战统计",
+  "playerDetailWins": "累计胜场",
+  "playerDetailThreeCrownWins": "三皇冠胜利次数",
+  "playerDetailHighestTrophies": "最高奖杯",
+  "playerDetailCollectedCards": "已拥有的卡牌数",
+  "playerDetailTotalDonations": "累计捐献",
+  "playerDetailCurrentFavoriteCard": "最近常用卡牌",
+  "playerDetailWinRate": "胜率统计",
+  "playerDetailWarDayWins": "战斗日胜场",
+  "playerDetailClanCardsCollected": "累计收集的部落卡牌",
+  "playerDetailChallengeStats": "挑战赛数据",
+  "playerDetailTournamentStats": "锦标赛数据",
+  "playerDetailMaxWins": "最多胜场",
+  "playerDetailCardWins": "赢得卡牌数",
+  "playerDetailTournamentTimes": "参加的锦标赛",
+  "playerDetailTournamentWins": "锦标赛胜场",
+  "playerDetailCardsStats": "卡牌统计",
+  "playerDetailPocketCards": "已拥有的卡牌",
+  "playerDetailCurrentDeck": "正在使用的卡组",
+  "playerDetailBattleRecord": "对战记录",
+
+
+  "roleLeader": "首领",
+  "roleCoLeader": "副首领",
+  "roleElder": "长老",
+  "roleMember": "成员"
+}
