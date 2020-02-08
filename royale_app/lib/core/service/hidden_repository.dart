@@ -1,12 +1,12 @@
 // Copyright 2020 Moosphon. All rights reserved.
 
-import 'package:flutter/material.dart';
 import 'package:royale_app/core/model/common_model.dart';
 import 'package:royale_app/core/resource/constants.dart';
 import 'package:royale_app/generated/i18n.dart';
 
 /// Game hidden data repository which official api has not provided.
 /// Includes: chests assets, card information, arenas info, clan badges..
+/// TODO: Adapt for english
 /// @author moosphon
 
 class HiddenDataRepository {

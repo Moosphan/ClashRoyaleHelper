@@ -33,6 +33,7 @@ class PlayerViewModel extends BaseViewModel {
         applyState(ViewState.IDLE);
         refreshPlayerData(result);
         getUpcomingChests(tag);
+        getBattleLogs(tag);
       } else {
         applyState(ViewState.EMPTY);
       }

@@ -1,9 +1,12 @@
 // Copyright 2020 Moosphon. All rights reserved.
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:royale_app/core/model/chest_model.dart';
+import 'package:royale_app/core/model/player_battle_log_model.dart';
 import 'package:royale_app/core/provider/extension/partial_consumer_widget.dart';
 import 'package:royale_app/core/resource/constants.dart';
 import 'package:royale_app/core/resource/image_assets.dart';
@@ -166,6 +169,8 @@ class _PlayerDetailPageState extends State<PlayerDetailPage> {
                 _buildTournamentRecordArea(model),
                 // 卡牌信息
                 _buildCardsArea(model),
+                // 对战记录
+                _buildBattleArea(model),
               ],
             ),
           ),
@@ -1044,13 +1049,35 @@ class _PlayerDetailPageState extends State<PlayerDetailPage> {
             children: <Widget>[
               Image(image: AssetImage(ImageAssets.ic_left_header), width: 3, height: 12,),
               ScreenUtils.horizontalSpace(6),
-              Text(S.of(context).playerDetailUpcomingChests, style: AppTheme.smallDark.copyWith(fontWeight: FontWeight.bold),)
+              Expanded(child: Text(S.of(context).playerDetailBattleRecord, style: AppTheme.smallDark.copyWith(fontWeight: FontWeight.bold),)),
+              GestureDetector(
+                onTap: () {
+                  Fluttertoast.showToast(msg: '查看更多');
+                },
+                child: Row(
+                  children: <Widget>[
+                    Text(S.of(context).scanMore, style: AppTheme.micro.copyWith(color: AppTheme.textSecondaryColor)),
+                    ScreenUtils.horizontalSpace(3),
+                    Icon(Icons.arrow_forward_ios, size: 8),
+                    ScreenUtils.horizontalSpace(12)
+                  ],
+                ),
+              )
             ],
           ),
           ScreenUtils.verticalSpace(10),
           ScreenUtils.divider(0),
           ScreenUtils.verticalSpace(10),
-          _buildChestList(model)
+          ListView.separated(
+            physics: NeverScrollableScrollPhysics(),
+            separatorBuilder: (context, index) {
+              return Divider();
+            },
+            shrinkWrap: true,
+            itemCount: model.battleLog.length <= 2 ? model.battleLog.length : 2,
+            padding: EdgeInsets.symmetric(horizontal: AutoSize.covert.dpToDp(10)),
+            itemBuilder: (context, index) => _buildBattleItem(model.battleLog[index]),
+          )
         ],
       ),
     );
@@ -1059,5 +1086,340 @@ class _PlayerDetailPageState extends State<PlayerDetailPage> {
   ///TODO: 1.成就墙
   ///TODO: 2.已拥有卡牌在二级弹窗显示（朕已阅）
   ///TODO: 3.GitHub创建项目
+  ///TODO: 4.卡牌等级计算问题
+  ///TODO: 5.防御塔损害情况
+
+  Widget _buildBattleItem(PlayerBattleLog battle) {
+    return Container(
+      padding: EdgeInsets.all(8),
+      child: Column(
+        children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Expanded(
+                child: Container(
+                  child: Container(
+                    margin: EdgeInsets.only(right: 60),
+                    padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
+                    decoration: BoxDecoration(
+                        color: battle.won ? AppTheme.chipColor : AppTheme.messageOvalColor,
+                        borderRadius: BorderRadius.horizontal(right: Radius.circular(15))
+                    ),
+                    child: Text(battle.won ? '胜利' : '失败', style: AppTheme.smallDark.copyWith(color: Colors.white, fontWeight: FontWeight.w600)),
+                  ),
+                ),
+              ),
+              Expanded(child: Text('${battle.team.first.crowns} - ${battle.opponent.first.crowns}', style: AppTheme.body1.copyWith(fontWeight: FontWeight.bold), textAlign: TextAlign.center,)),
+              Expanded(child: Text('天梯对战', style: AppTheme.small, textAlign: TextAlign.right,))
+            ],
+          ),
+          ScreenUtils.verticalSpace(12),
+          // 1v1 view
+          Column(
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Expanded(
+                      child: Text(
+                        battle.team.first.name,
+                        style: AppTheme.small.copyWith(color: AppTheme.textSecondaryColor, fontWeight: FontWeight.w600),
+                      )
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                      child: Text('vs', style: AppTheme.body2.copyWith(color: AppTheme.textHintColor), textAlign: TextAlign.center)
+                  ),
+                  Expanded(
+                      child: Text(
+                        battle.opponent.first.name,
+                        style: AppTheme.small.copyWith(color: AppTheme.textSecondaryColor, fontWeight: FontWeight.w600),
+                        textAlign: TextAlign.right,
+                      )
+                  )
+                ],
+              ),
+              ScreenUtils.verticalSpace(10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Expanded(
+                    child: Container(
+                      //width: MediaQuery.of(context).size.width / 3,
+                      child: Column(
+                        children: <Widget>[
+                          Row(
+                            children: <Widget>[
+                              Image(image: AssetImage(ImageAssets.ic_cr_cups), width: 12, height: 12),
+                              ScreenUtils.horizontalSpace(4),
+                              Text(battle.team.first.startingTrophies.toString(), style: AppTheme.smallDark),
+                              Offstage(
+                                offstage: battle.team.first.trophyChange == null,
+                                child: Text(
+                                    (battle.team.first.trophyChange != null && battle.team.first.trophyChange < 0) ? '-' : '+'
+                                        + battle.team.first.trophyChange.toString() ?? '0',
+                                    style: AppTheme.small
+                                ),
+                              )
+                            ],
+                          ),
+                          ScreenUtils.verticalSpace(10),
+                          GridView.builder(
+                            physics: NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: battle.team.first.cards.length,
+                            padding: EdgeInsets.symmetric(vertical: AutoSize.covert.dpToDp(6)),
+                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 4,
+                                crossAxisSpacing: AutoSize.covert.dpToDp(5),
+                                mainAxisSpacing: AutoSize.covert.dpToDp(6),
+                                childAspectRatio: 0.82
+                            ),
+                            itemBuilder: (context, index) => Container(
+                              constraints: BoxConstraints.expand(),
+                              child: Stack(
+                                alignment: Alignment.center,
+                                children: <Widget>[
+                                  CachedNetworkImage(
+                                      imageUrl: battle.team.first.cards[index].iconUrls.medium
+                                  ),
+                                  Text('${battle.team.first.cards[index].level}级', style: AppTheme.micro.copyWith(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      shadows: [
+                                        Shadow(
+                                            color: Colors.black,
+                                            blurRadius: 2,
+                                            offset: Offset(0.5, 0.5)
+                                        )
+                                      ]
+                                  ))
+                                ],
+                              ),
+                            ),
+                          ),
+
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  Container(
+                    color: AppTheme.borderColor,
+                    width: 0.8,
+                    height: 112,
+                    margin: EdgeInsets.symmetric(horizontal: 10),
+                  ),
+
+                  Expanded(
+                    child: Container(
+                      //width: MediaQuery.of(context).size.width / 3,
+                      child: Column(
+                        children: <Widget>[
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: <Widget>[
+                              Text(battle.opponent.first.startingTrophies.toString(), style: AppTheme.smallDark),
+                              Offstage(
+                                offstage: battle.opponent.first.trophyChange == null,
+                                child: Text(
+                                    (battle.opponent.first.trophyChange != null && battle.opponent.first.trophyChange < 0) ? '-' : '+'
+                                        + battle.opponent.first.trophyChange.toString() ?? '0',
+                                    style: AppTheme.small
+                                ),
+                              ),
+                              ScreenUtils.horizontalSpace(4),
+                              Image(image: AssetImage(ImageAssets.ic_cr_cups), width: 12, height: 12),
+                            ],
+                          ),
+
+                          ScreenUtils.verticalSpace(10),
+
+                          GridView.builder(
+                            physics: NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: battle.opponent.first.cards.length,
+                            padding: EdgeInsets.symmetric(vertical: AutoSize.covert.dpToDp(6)),
+                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 4,
+                                crossAxisSpacing: AutoSize.covert.dpToDp(4),
+                                mainAxisSpacing: AutoSize.covert.dpToDp(4),
+                                childAspectRatio: 0.82
+                            ),
+                            itemBuilder: (context, index) => Container(
+                              constraints: BoxConstraints.expand(),
+                              child: Stack(
+                                alignment: Alignment.center,
+                                children: <Widget>[
+                                  CachedNetworkImage(
+                                      imageUrl: battle.opponent.first.cards[index].iconUrls.medium
+                                  ),
+                                  Text('${battle.opponent.first.cards[index].level}级', style: AppTheme.micro.copyWith(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      shadows: [
+                                        Shadow(
+                                            color: Colors.black,
+                                            blurRadius: 2,
+                                            offset: Offset(0.5, 0.5)
+                                        )
+                                      ]
+                                  ))
+                                ],
+                              ),
+                            ),
+                          ),
+
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          ScreenUtils.verticalSpace(10),
+          // 2v2, the other member
+          battle.team.length == 1 ? ScreenUtils.verticalSpace(2) : _build2pBattleComponent(battle),
+          ScreenUtils.verticalSpace(10),
+          Text(DateTime.tryParse(battle.battleTime).toString().substring(0, 16), style: AppTheme.small),
+        ],
+      ),
+    );
+  }
+
+  Widget _build2pBattleComponent(PlayerBattleLog battle) => Offstage(
+    offstage: battle.team.length == 1,
+    child: Column(
+      children: <Widget>[
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Expanded(
+                child: Text(
+                  battle.team[1].name,
+                  style: AppTheme.small.copyWith(color: AppTheme.textSecondaryColor, fontWeight: FontWeight.w600),
+                )
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10),
+                child: Text('2P', style: AppTheme.body2.copyWith(color: AppTheme.textHintColor), textAlign: TextAlign.center)
+            ),
+            Expanded(
+                child: Text(
+                  battle.opponent[1].name,
+                  style: AppTheme.small.copyWith(color: AppTheme.textSecondaryColor, fontWeight: FontWeight.w600),
+                  textAlign: TextAlign.right,
+                )
+            )
+          ],
+        ),
+        ScreenUtils.verticalSpace(10),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Expanded(
+              child: Container(
+                //width: MediaQuery.of(context).size.width / 3,
+                child: Column(
+                  children: <Widget>[
+                    GridView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: battle.team[1].cards.length,
+                      padding: EdgeInsets.symmetric(vertical: AutoSize.covert.dpToDp(6)),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 4,
+                          crossAxisSpacing: AutoSize.covert.dpToDp(5),
+                          mainAxisSpacing: AutoSize.covert.dpToDp(6),
+                          childAspectRatio: 0.82
+                      ),
+                      itemBuilder: (context, index) => Container(
+                        constraints: BoxConstraints.expand(),
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: <Widget>[
+                            CachedNetworkImage(
+                                imageUrl: battle.team[1].cards[index].iconUrls.medium
+                            ),
+                            Text('${battle.team[1].cards[index].level}级', style: AppTheme.micro.copyWith(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                shadows: [
+                                  Shadow(
+                                      color: Colors.black,
+                                      blurRadius: 2,
+                                      offset: Offset(0.5, 0.5)
+                                  )
+                                ]
+                            ))
+                          ],
+                        ),
+                      ),
+                    ),
+
+                  ],
+                ),
+              ),
+            ),
+
+            Container(
+              color: AppTheme.borderColor,
+              width: 0.8,
+              height: 112,
+              margin: EdgeInsets.symmetric(horizontal: 10),
+            ),
+
+            Expanded(
+              child: Container(
+                //width: MediaQuery.of(context).size.width / 3,
+                child: Column(
+                  children: <Widget>[
+
+                    GridView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: battle.opponent[1].cards.length,
+                      padding: EdgeInsets.symmetric(vertical: AutoSize.covert.dpToDp(6)),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 4,
+                          crossAxisSpacing: AutoSize.covert.dpToDp(4),
+                          mainAxisSpacing: AutoSize.covert.dpToDp(4),
+                          childAspectRatio: 0.82
+                      ),
+                      itemBuilder: (context, index) => Container(
+                        constraints: BoxConstraints.expand(),
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: <Widget>[
+                            CachedNetworkImage(
+                                imageUrl: battle.opponent[1].cards[index].iconUrls.medium
+                            ),
+                            Text('${battle.opponent[1].cards[index].level}级', style: AppTheme.micro.copyWith(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                shadows: [
+                                  Shadow(
+                                      color: Colors.black,
+                                      blurRadius: 2,
+                                      offset: Offset(0.5, 0.5)
+                                  )
+                                ]
+                            ))
+                          ],
+                        ),
+                      ),
+                    ),
+
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ],
+    ),
+  );
 
 }

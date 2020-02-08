@@ -11,6 +11,34 @@ class PlayerBattleLog {
   List<PlayerBattle> team;
   List<PlayerBattle> opponent;
 
+  // 是否胜利
+  bool get won => team.first.crowns != 0;
+  // 对战模式的名称
+  String get battleTypeName => _convertBattleType();
+
+  Map<String, String> battleTypes;
+  Map<String, String> battleModes;
+
+  void _init() {
+    battleTypes = {
+      'casual1v1': '1v1派对赛',
+      'casual2v2': '2v2派对赛',
+      'challenge': '挑战赛',
+      'PvP': '天梯赛'
+    };
+
+    battleModes = {
+      '72000062': '三倍圣水对战', //TripleElixir_Ladder
+      '72000122': '', //Draft_Rage_SpawnJacks_Friendly
+      '72000007': '好友切磋', //Friendly
+      '72000023': '团队战', //TeamVsTeamLadder
+    };
+  }
+
+  String _convertBattleType() {
+    return battleTypes[type];
+  }
+
   PlayerBattleLog(
       {this.type,
         this.battleTime,
@@ -41,6 +69,8 @@ class PlayerBattleLog {
         opponent.add(new PlayerBattle.fromJson(v));
       });
     }
+    // 初始化执行赛事名称任务
+    _init();
   }
 
   Map<String, dynamic> toJson() {
@@ -69,9 +99,10 @@ class PlayerBattle {
   String tag;
   String name;
   int startingTrophies;
+  int trophyChange; // 奖杯变化（仅限于天梯赛）
   int crowns;
   int kingTowerHitPoints;
-  List<int> princessTowersHitPoints;
+  //List<int> princessTowersHitPoints;
   Clan clan;
   List<RoleCard> cards;
 
@@ -79,9 +110,10 @@ class PlayerBattle {
       {this.tag,
         this.name,
         this.startingTrophies,
+        this.trophyChange,
         this.crowns,
         this.kingTowerHitPoints,
-        this.princessTowersHitPoints,
+        //this.princessTowersHitPoints,
         this.clan,
         this.cards});
 
@@ -89,9 +121,12 @@ class PlayerBattle {
     tag = json['tag'];
     name = json['name'];
     startingTrophies = json['startingTrophies'];
+    trophyChange = json['trophyChange'];
     crowns = json['crowns'];
     kingTowerHitPoints = json['kingTowerHitPoints'];
-    princessTowersHitPoints = json['princessTowersHitPoints'].cast<int>();
+    //princessTowersHitPoints = json['princessTowersHitPoints'];
+    //princessTowersHitPoints = new List<int>();
+    //json['princessTowersHitPoints'].forEach((v) { princessTowersHitPoints.add(v); });
     clan = json['clan'] != null ? new Clan.fromJson(json['clan']) : null;
     if (json['cards'] != null) {
       cards = new List<RoleCard>();
@@ -106,9 +141,10 @@ class PlayerBattle {
     data['tag'] = this.tag;
     data['name'] = this.name;
     data['startingTrophies'] = this.startingTrophies;
+    data['trophyChange'] = this.trophyChange;
     data['crowns'] = this.crowns;
     data['kingTowerHitPoints'] = this.kingTowerHitPoints;
-    data['princessTowersHitPoints'] = this.princessTowersHitPoints;
+    //data['princessTowersHitPoints'] = this.princessTowersHitPoints;
     if (this.clan != null) {
       data['clan'] = this.clan.toJson();
     }
