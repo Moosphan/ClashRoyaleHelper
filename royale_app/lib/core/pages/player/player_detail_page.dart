@@ -1,5 +1,4 @@
 // Copyright 2020 Moosphon. All rights reserved.
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +6,7 @@ import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:royale_app/core/model/chest_model.dart';
 import 'package:royale_app/core/model/player_battle_log_model.dart';
+import 'package:royale_app/core/pages/player/player_battle_page.dart';
 import 'package:royale_app/core/provider/extension/partial_consumer_widget.dart';
 import 'package:royale_app/core/resource/constants.dart';
 import 'package:royale_app/core/resource/image_assets.dart';
@@ -35,7 +35,6 @@ class _PlayerDetailPageState extends State<PlayerDetailPage> {
 
   @override
   void initState() {
-    // Base64Codec.urlSafe().encode(utf8.encode(widget.tag))
     HiddenDataRepository.init();
     _playerViewModel = PlayerViewModel();
     super.initState();
@@ -52,17 +51,20 @@ class _PlayerDetailPageState extends State<PlayerDetailPage> {
         backgroundColor: Colors.white,
         elevation: 0.6,
         leading: IconButton(
-            icon: ImageIcon(AssetImage(ImageAssets.ic_arrow_back), color: AppTheme.primaryColor),
+            icon: ImageIcon(AssetImage(ImageAssets.ic_arrow_back), color: AppTheme.primaryColor, size: 24,),
             onPressed: () {
               Navigator.maybePop(context);
             }
         ),
         actions: <Widget>[
-          IconButton(
-              icon: ImageIcon(AssetImage(ImageAssets.ic_add_circle), color: AppTheme.primaryColor),
-              onPressed: () {
-                Fluttertoast.showToast(msg: '收藏');
-              }
+          Align(
+            alignment: Alignment.centerRight,
+            child: IconButton(
+                icon: Icon(Icons.more_vert, color: AppTheme.primaryColor,),
+                onPressed: () {
+                  Fluttertoast.showToast(msg: '分享');
+                }
+            ),
           )
         ],
       ),
@@ -404,7 +406,7 @@ class _PlayerDetailPageState extends State<PlayerDetailPage> {
                                 borderRadius: BorderRadius.circular(2),
                                 border: Border.all(color: AppTheme.borderColor, width: 0.7)
                             ),
-                            child: Text('${model.playerDetail.cards.length.toString()}/97',
+                            child: Text('${model.playerDetail.cards.length.toString()}/${Constants.GAME_AVAILABLE_TOTAL_CARDS_COUNT}',
                               style: AppTheme.smallDark.copyWith(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
@@ -614,9 +616,12 @@ class _PlayerDetailPageState extends State<PlayerDetailPage> {
                 },
                 child: Row(
                   children: <Widget>[
-                    Text(S.of(context).scanMore, style: AppTheme.micro.copyWith(color: AppTheme.textSecondaryColor)),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 4),
+                      child: Text(S.of(context).scanMore, style: AppTheme.micro.copyWith(color: AppTheme.textSecondaryColor)),
+                    ),
                     ScreenUtils.horizontalSpace(3),
-                    Icon(Icons.arrow_forward_ios, size: 8),
+                    Icon(Icons.arrow_forward_ios, size: 6),
                     ScreenUtils.horizontalSpace(12)
                   ],
                 ),
@@ -1053,12 +1058,15 @@ class _PlayerDetailPageState extends State<PlayerDetailPage> {
               GestureDetector(
                 onTap: () {
                   Fluttertoast.showToast(msg: '查看更多');
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (_) => PlayerBattlesPage(model.playerDetail.name, model.battleLog))
+                  );
                 },
                 child: Row(
                   children: <Widget>[
                     Text(S.of(context).scanMore, style: AppTheme.micro.copyWith(color: AppTheme.textSecondaryColor)),
                     ScreenUtils.horizontalSpace(3),
-                    Icon(Icons.arrow_forward_ios, size: 8),
+                    Icon(Icons.arrow_forward_ios, size: 6),
                     ScreenUtils.horizontalSpace(12)
                   ],
                 ),
@@ -1074,7 +1082,7 @@ class _PlayerDetailPageState extends State<PlayerDetailPage> {
               return Divider();
             },
             shrinkWrap: true,
-            itemCount: model.battleLog.length <= 2 ? model.battleLog.length : 2,
+            itemCount: model.battleLog.length <= 3 ? model.battleLog.length : 3,
             padding: EdgeInsets.symmetric(horizontal: AutoSize.covert.dpToDp(10)),
             itemBuilder: (context, index) => _buildBattleItem(model.battleLog[index]),
           )
@@ -1088,6 +1096,7 @@ class _PlayerDetailPageState extends State<PlayerDetailPage> {
   ///TODO: 3.GitHub创建项目
   ///TODO: 4.卡牌等级计算问题
   ///TODO: 5.防御塔损害情况
+  ///TODO: 6.时间换算(e.g: 昨天 05:16)
 
   Widget _buildBattleItem(PlayerBattleLog battle) {
     return Container(
@@ -1103,7 +1112,7 @@ class _PlayerDetailPageState extends State<PlayerDetailPage> {
                     margin: EdgeInsets.only(right: 60),
                     padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
                     decoration: BoxDecoration(
-                        color: battle.won ? AppTheme.chipColor : AppTheme.messageOvalColor,
+                        color: battle.won ? AppTheme.chipColor : AppTheme.failureColor,
                         borderRadius: BorderRadius.horizontal(right: Radius.circular(15))
                     ),
                     child: Text(battle.won ? '胜利' : '失败', style: AppTheme.smallDark.copyWith(color: Colors.white, fontWeight: FontWeight.w600)),
@@ -1128,7 +1137,7 @@ class _PlayerDetailPageState extends State<PlayerDetailPage> {
                       )
                   ),
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10),
+                      padding: EdgeInsets.symmetric(horizontal: 10),
                       child: Text('vs', style: AppTheme.body2.copyWith(color: AppTheme.textHintColor), textAlign: TextAlign.center)
                   ),
                   Expanded(
@@ -1146,7 +1155,6 @@ class _PlayerDetailPageState extends State<PlayerDetailPage> {
                 children: <Widget>[
                   Expanded(
                     child: Container(
-                      //width: MediaQuery.of(context).size.width / 3,
                       child: Column(
                         children: <Widget>[
                           Row(
@@ -1157,8 +1165,7 @@ class _PlayerDetailPageState extends State<PlayerDetailPage> {
                               Offstage(
                                 offstage: battle.team.first.trophyChange == null,
                                 child: Text(
-                                    (battle.team.first.trophyChange != null && battle.team.first.trophyChange < 0) ? '-' : '+'
-                                        + battle.team.first.trophyChange.toString() ?? '0',
+                                    '${(battle.team.first.trophyChange != null && battle.team.first.trophyChange > 0) ? '+' : ''}${battle.team.first.trophyChange ?? ''}',
                                     style: AppTheme.small
                                 ),
                               )
@@ -1212,9 +1219,9 @@ class _PlayerDetailPageState extends State<PlayerDetailPage> {
                     margin: EdgeInsets.symmetric(horizontal: 10),
                   ),
 
+                  // 1p enemy info
                   Expanded(
                     child: Container(
-                      //width: MediaQuery.of(context).size.width / 3,
                       child: Column(
                         children: <Widget>[
                           Row(
@@ -1224,8 +1231,7 @@ class _PlayerDetailPageState extends State<PlayerDetailPage> {
                               Offstage(
                                 offstage: battle.opponent.first.trophyChange == null,
                                 child: Text(
-                                    (battle.opponent.first.trophyChange != null && battle.opponent.first.trophyChange < 0) ? '-' : '+'
-                                        + battle.opponent.first.trophyChange.toString() ?? '0',
+                                    '${(battle.opponent.first.trophyChange != null && battle.opponent.first.trophyChange > 0) ? '+' : ''}${battle.opponent.first.trophyChange ?? ''}',
                                     style: AppTheme.small
                                 ),
                               ),

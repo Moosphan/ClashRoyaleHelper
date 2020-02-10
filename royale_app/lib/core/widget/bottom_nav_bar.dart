@@ -105,7 +105,7 @@ class _TimeoryBottomNavigationBar extends State<TimeoryBottomNavigationBar> {
                             child: Container(
                               width: 6,
                               height: 6,
-                              color: AppTheme.messageOvalColor,
+                              color: AppTheme.failureColor,
                             ),
                           ),
                         ),

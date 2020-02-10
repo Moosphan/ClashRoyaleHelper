@@ -19,7 +19,7 @@ class AppTheme {
   static const Color borderColor = Color(0xFFE6E6E7);
   static const Color surfaceColor = Color(0xFFEEEEF2);
   static const Color avatarBorderColor = Color(0xFF121212);
-  static const Color messageOvalColor = Color(0xFFFF7979);
+  static const Color failureColor = Color(0xFFFF7979);
   static const Color chipColor = Color(0xFFBDC1CB);
 
   static const double underlineBorderWidth = 0.8;
@@ -67,7 +67,7 @@ class AppTheme {
 
   // normal title
   static const title = TextStyle(
-    fontSize: 18,
+    fontSize: 16,
     letterSpacing: 0.18,
     color: textPrimaryColor
   );

@@ -14,6 +14,7 @@ import 'package:royale_app/core/util/screen_adapt.dart';
 import 'package:royale_app/core/util/screen_utils.dart';
 import 'package:royale_app/core/viewmodel/rank_vm.dart';
 import 'package:royale_app/core/widget/common_progress_indicator.dart';
+import 'package:royale_app/core/widget/profile_dialog.dart';
 import 'package:royale_app/generated/i18n.dart';
 
 /// The page that receives letters.
@@ -66,7 +67,7 @@ class _PlayersRankPageState extends State<PlayersRankPage> {
                         color: Colors.white,
                         boxShadow: [
                           BoxShadow(
-                              color: Colors.black26.withAlpha(20),
+                              color: Colors.black26.withAlpha(60),
                               blurRadius: 1,
                               offset: Offset(0, 1),
                               spreadRadius: -1
@@ -99,7 +100,8 @@ class _PlayersRankPageState extends State<PlayersRankPage> {
                                 ),
                                 iconSize: 24,
                                 onPressed: () {
-                                  Fluttertoast.showToast(msg: '绑定个人游戏账号');
+                                  //Fluttertoast.showToast(msg: '绑定个人游戏账号');
+                                  _showPlayerBindDialog(context);
                                 }
                             )
                           ],
@@ -319,6 +321,13 @@ class _PlayersRankPageState extends State<PlayersRankPage> {
     }
   }
 
+  // display user bind dialog
+  _showPlayerBindDialog(BuildContext context) => showDialog<Null>(
+      context: context,
+      barrierDismissible: true,
+      builder: (context) => PlayerProfileDialog()
+  );
+
   Color _buildRankColor(index) {
     if (index == 0) {
       return Color(0xFFF16E58);
@@ -338,5 +347,7 @@ class _PlayersRankPageState extends State<PlayersRankPage> {
       });
     });
   }
+
+
 }
 

@@ -46,6 +46,7 @@ class ImageAssets {
   static const ic_player_profile = IMAGE_ASSETS_DIR + 'ic_player_profile.png';
   static const ic_write_letter = IMAGE_ASSETS_DIR + 'ic_write_letter.png';
   static const ic_crown = IMAGE_ASSETS_DIR + 'ic_crown.png';
+  static const ic_player_login = IMAGE_ASSETS_DIR + 'ic_player_login.png';
 
   // 玩家详情
   static const ic_add_circle = IMAGE_ASSETS_DIR + 'ic_add_circle.png';

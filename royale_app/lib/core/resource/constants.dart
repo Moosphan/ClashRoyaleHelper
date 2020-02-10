@@ -15,6 +15,7 @@ class Constants {
   static const String AUTH_KEY = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9.eyJpc3MiOiJzdXBlcmNlbGwiLCJhdWQiOiJzdXBlcmNlbGw6Z2FtZWFwaSIsImp0aSI6ImM1MGM4OGRjLTJiN2ItNDE1Mi04MDIyLTc2YTFhMjg2ZGQwYSIsImlhdCI6MTU4MDcyMTEzNCwic3ViIjoiZGV2ZWxvcGVyLzUwMjIxMTE5LTczOTEtNDg4ZS0zMTIwLTk4Y2M2MGFjYjRiMCIsInNjb3BlcyI6WyJyb3lhbGUiXSwibGltaXRzIjpbeyJ0aWVyIjoiZGV2ZWxvcGVyL3NpbHZlciIsInR5cGUiOiJ0aHJvdHRsaW5nIn0seyJjaWRycyI6WyI2Ny4yMDkuMTc3LjIzIiwiMTgwLjEyNy42Ny44OSJdLCJ0eXBlIjoiY2xpZW50In1dfQ.oQR2C32absDW4BMkCb-wWytTKsmR3TOF09LkI4qJP-exD-NPon4TPfelE-AqKVYsGWfoQDtjKn7mHQNLJYVBNw";
 
   static const String PREFIX_CHARACTER = '%23';
+  static const int GAME_AVAILABLE_TOTAL_CARDS_COUNT = 97;
 
   static const String NO_CLAN_HOLDER_WHITE = "https://royaleapi.github.io/cr-api-assets/badges/NoClan.png";
   static const String NO_CLAN_HOLDER_BLACK = "https://royaleapi.github.io/cr-api-assets/badges/no_clan.png";

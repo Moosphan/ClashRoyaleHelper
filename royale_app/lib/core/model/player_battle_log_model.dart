@@ -24,7 +24,7 @@ class PlayerBattleLog {
       'casual1v1': '1v1派对赛',
       'casual2v2': '2v2派对赛',
       'challenge': '挑战赛',
-      'PvP': '天梯赛'
+      'PvP': '1v1'
     };
 
     battleModes = {
@@ -32,6 +32,7 @@ class PlayerBattleLog {
       '72000122': '', //Draft_Rage_SpawnJacks_Friendly
       '72000007': '好友切磋', //Friendly
       '72000023': '团队战', //TeamVsTeamLadder
+      '72000006': '天梯赛', //Ladder
     };
   }
 
