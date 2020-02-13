@@ -37,7 +37,7 @@ class PlayerProfileDialog extends Dialog {
                 ),
                 ScreenUtils.divider(0),
                 Container(
-                  margin: EdgeInsets.only(top: 20, left: 18, right: 18, bottom: 12),
+                  margin: EdgeInsets.only(top: 12, left: 18, right: 18, bottom: 12),
                   child: Text(
                     'Sign in to save player\'s game data, reserves seats and rate sessions(if an attendee).Actions will be synced from your account across app and site.',
                     style: AppTheme.body2,

@@ -30,19 +30,22 @@ class PlayerBattlesPage extends StatelessWidget {
         )
       ),
 
-      body: Container(
-        color: Colors.white,
-        margin: EdgeInsets.symmetric(vertical: 10, horizontal: 12),
-        padding: EdgeInsets.symmetric(vertical: 10),
-        child: ListView.separated(
-          physics: BouncingScrollPhysics(),
-          separatorBuilder: (context, index) {
-            return Divider();
-          },
-          shrinkWrap: true,
-          itemCount: battleLogs.length,
-          padding: EdgeInsets.symmetric(horizontal: AutoSize.covert.dpToDp(10)),
-          itemBuilder: (context, index) => _buildBattleItem(battleLogs[index]),
+      body: SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
+        child: Container(
+          color: Colors.white,
+          margin: EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+          padding: EdgeInsets.symmetric(vertical: 10),
+          child: ListView.separated(
+            physics: NeverScrollableScrollPhysics(),
+            separatorBuilder: (context, index) {
+              return Divider();
+            },
+            shrinkWrap: true,
+            itemCount: battleLogs.length,
+            padding: EdgeInsets.symmetric(horizontal: AutoSize.covert.dpToDp(10)),
+            itemBuilder: (context, index) => _buildBattleItem(battleLogs[index]),
+          ),
         ),
       ),
     );
@@ -59,7 +62,7 @@ class PlayerBattlesPage extends StatelessWidget {
               Expanded(
                 child: Container(
                   child: Container(
-                    margin: EdgeInsets.only(right: 60),
+                    margin: EdgeInsets.only(right: AutoSize.covert.dpToDp(60)),
                     padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
                     decoration: BoxDecoration(
                         color: battle.won ? AppTheme.chipColor : AppTheme.failureColor,

@@ -26,6 +26,7 @@ class ImageAssets {
   static const icon_cr_share = IMAGE_ASSETS_DIR + 'icon_cr_share.png';
   static const icon_cr_to_app = IMAGE_ASSETS_DIR + 'icon_cr_to_app.png';
   static const holder_clan = IMAGE_ASSETS_DIR + 'holder_clan.png';
+  static const ic_battle = IMAGE_ASSETS_DIR + 'ic_battle.png';
 
   // 启动页
   static const bg_splash = IMAGE_ASSETS_DIR + 'splash_bg.png';

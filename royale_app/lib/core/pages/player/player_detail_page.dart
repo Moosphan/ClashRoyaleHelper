@@ -1109,7 +1109,7 @@ class _PlayerDetailPageState extends State<PlayerDetailPage> {
               Expanded(
                 child: Container(
                   child: Container(
-                    margin: EdgeInsets.only(right: 60),
+                    margin: EdgeInsets.only(right: AutoSize.covert.dpToDp(60)),
                     padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
                     decoration: BoxDecoration(
                         color: battle.won ? AppTheme.chipColor : AppTheme.failureColor,
@@ -1330,6 +1330,14 @@ class _PlayerDetailPageState extends State<PlayerDetailPage> {
                 //width: MediaQuery.of(context).size.width / 3,
                 child: Column(
                   children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        Text(battle.team[1].startingTrophies.toString(), style: AppTheme.smallDark),
+                        ScreenUtils.horizontalSpace(4),
+                        Image(image: AssetImage(ImageAssets.ic_cr_cups), width: 12, height: 12),
+                      ],
+                    ),
+
                     GridView.builder(
                       physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
@@ -1382,7 +1390,14 @@ class _PlayerDetailPageState extends State<PlayerDetailPage> {
                 //width: MediaQuery.of(context).size.width / 3,
                 child: Column(
                   children: <Widget>[
-
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: <Widget>[
+                        Text(battle.opponent[1].startingTrophies.toString(), style: AppTheme.smallDark),
+                        ScreenUtils.horizontalSpace(4),
+                        Image(image: AssetImage(ImageAssets.ic_cr_cups), width: 12, height: 12),
+                      ],
+                    ),
                     GridView.builder(
                       physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
