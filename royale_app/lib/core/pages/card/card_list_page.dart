@@ -1,7 +1,7 @@
 // Copyright 2020 Moosphon. All rights reserved.
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:royale_app/core/model/common_model.dart';
+import 'package:royale_app/core/model/base/common_model.dart';
 import 'package:royale_app/core/provider/extension/partial_consumer_widget.dart';
 import 'package:royale_app/core/resource/image_assets.dart';
 import 'package:royale_app/core/resource/style.dart';

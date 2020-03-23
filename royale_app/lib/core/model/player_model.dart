@@ -1,5 +1,5 @@
 // Copyright 2020 Moosphon. All rights reserved.
-import 'common_model.dart';
+import 'base/common_model.dart';
 
 /// 玩家的详细数据
 /// @author Moosphon

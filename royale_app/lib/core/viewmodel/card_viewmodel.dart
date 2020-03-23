@@ -1,6 +1,6 @@
 // Copyright 2020 Moosphon. All rights reserved.
 import 'package:royale_app/core/model/cards_available_model.dart';
-import 'package:royale_app/core/model/common_model.dart';
+import 'package:royale_app/core/model/base/common_model.dart';
 import 'package:royale_app/core/service/royale_repository.dart';
 import 'package:royale_app/core/util/log_utils.dart';
 import 'package:royale_app/core/viewmodel/state.dart';

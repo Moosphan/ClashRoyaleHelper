@@ -1,5 +1,5 @@
 // Copyright 2020 Moosphon. All rights reserved.
-import 'package:royale_app/core/model/common_model.dart';
+import 'package:royale_app/core/model/base/common_model.dart';
 
 /// 当前游戏卡片数据
 class AvailableCards {

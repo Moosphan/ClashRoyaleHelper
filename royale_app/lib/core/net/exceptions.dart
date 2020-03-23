@@ -1,7 +1,7 @@
 // Copyright 2020 Moosphon. All rights reserved.
 
 
-import 'package:royale_app/core/model/error_response.dart';
+import 'package:royale_app/core/model/base/error_response.dart';
 /// 请求异常处理
 class RoyaleApiRequestFailedException implements Exception {
   String message;

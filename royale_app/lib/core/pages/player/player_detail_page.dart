@@ -35,7 +35,7 @@ class _PlayerDetailPageState extends State<PlayerDetailPage> {
 
   @override
   void initState() {
-    HiddenDataRepository.init();
+    //HiddenDataRepository.init();
     _playerViewModel = PlayerViewModel();
     super.initState();
 
@@ -43,10 +43,10 @@ class _PlayerDetailPageState extends State<PlayerDetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    HiddenDataRepository.initializeClanRoleData(context);
+    //HiddenDataRepository.initializeClanRoleData(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text('玩家详情', style: AppTheme.title,),
+        title: Text('玩家详情', style: AppTheme.title),
         centerTitle: true,
         backgroundColor: Colors.white,
         elevation: 0.6,

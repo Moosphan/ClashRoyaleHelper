@@ -1,12 +1,17 @@
 // Copyright 2020 Moosphon. All rights reserved.
 
-import 'package:royale_app/core/model/common_model.dart';
+import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:royale_app/core/model/base/common_model.dart';
+import 'package:royale_app/core/model/proxy/badge_icons.dart';
 import 'package:royale_app/core/resource/constants.dart';
+import 'package:royale_app/core/util/log_utils.dart';
 import 'package:royale_app/generated/i18n.dart';
 
 /// Game hidden data repository which official api has not provided.
 /// Includes: chests assets, card information, arenas info, clan badges..
-/// TODO: Adapt for english
+/// TODO: improve init time by local cache.
 /// @author moosphon
 
 class HiddenDataRepository {
@@ -20,10 +25,19 @@ class HiddenDataRepository {
 
   static Map<String, String> _clanRoles;
 
-  static void init() {
+  static List<BadgeIconData> _badgeIcons;
+
+  static void init(BuildContext context, VoidCallback onReady) async {
     _instance = HiddenDataRepository();
     _initializeChestsData();
     _initializeArenasData();
+    _initializeClanRoleData(context);
+    _initializeClanBadgeData(context).then((success) {
+      if (success) {
+        onReady();
+      }
+    });
+
   }
 
   static _initializeChestsData() {
@@ -66,9 +80,8 @@ class HiddenDataRepository {
       '54000017': ArenaImprovedData('大师联赛III', 'arena18'),
       '54000018': ArenaImprovedData('冠军联赛', 'arena19'),
       '54000019': ArenaImprovedData('超级冠军联赛', 'arena20'),
-       // TODO: 新赛季刚开始，尚未有人达到，待完善～
-      'Royal Champion': ArenaImprovedData('皇室冠军联赛', 'arena21'),
-      'Ultimate Champion': ArenaImprovedData('终极冠军联赛', 'arena22'),
+      '54000020': ArenaImprovedData('皇室冠军联赛', 'arena21'),
+      '54000031': ArenaImprovedData('终极冠军联赛', 'arena22'),
 
       'league1': ArenaImprovedData('1阶竞技场', 'league1'),
       'league2': ArenaImprovedData('1阶竞技场', 'league2'),
@@ -87,7 +100,7 @@ class HiddenDataRepository {
     return _arenas[id];
   }
 
-  static initializeClanRoleData(context) {
+  static _initializeClanRoleData(context) {
     _clanRoles = {
       'leader': S.of(context).roleLeader,
       'coLeader': S.of(context).roleCoLeader,
@@ -96,14 +109,33 @@ class HiddenDataRepository {
     };
   }
 
-  // get clean roles
+  static Future<bool> _initializeClanBadgeData(context) async {
+    try {
+      String jsonString = await rootBundle.loadString('assets/data/alliance_badges.json');
+      var json = jsonDecode(jsonString) as List;
+      _badgeIcons = json.map((badgeIcon) => BadgeIconData.fromJson(badgeIcon)).toList();
+      Logger.e('解析本地的部落徽章数据为: $_badgeIcons');
+      return true;
+    } catch(e, s) {
+      Logger.e('解析本地json文件失败：$e');
+      return false;
+    }
+
+  }
+
+  // get clan roles
   // before get role, we should use #initializeClanRoleData first in #build method.
   String finClanRole(String key) {
     return _clanRoles[key];
   }
 
-
-
-
+  // get clan badge resource url
+  String getBadgeIconUrl(BuildContext context, num badgeId) {
+    if (_badgeIcons == null || _badgeIcons.length == 0) {
+      _initializeClanBadgeData(context);
+    }
+    num badgeIconNumber = badgeId - 16000000;
+    return Constants.IMAGE_ASSET_BADGES + _badgeIcons[badgeIconNumber].name + Constants.IMAGE_PNG_FORMAT;
+  }
 
 }

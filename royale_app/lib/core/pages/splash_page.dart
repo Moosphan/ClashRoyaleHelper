@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:royale_app/core/pages/home/home_page.dart';
 import 'package:royale_app/core/resource/image_assets.dart';
+import 'package:royale_app/core/service/hidden_repository.dart';
 
 class SplashPage extends StatefulWidget {
   @override
@@ -16,11 +17,17 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration(seconds: 3)).then((data) {
-//      Navigator.of(context).push(MaterialPageRoute(
-//        builder: (context) => HomePage()
-//      ));
-      Navigator.of(context).pushReplacementNamed('/homePage');
+    // avoid: dependOnInheritedWidgetOfExactType<_LocalizationsScope>() or dependOnInheritedElement() was called before _SplashPageState.initState() completed.
+    Future.delayed(Duration.zero, () {
+      _init();
+    });
+  }
+
+  void _init() {
+    HiddenDataRepository.init(context, () {
+      Future.delayed(Duration(seconds: 3)).then((data) {
+        Navigator.of(context).pushReplacementNamed('/homePage');
+      });
     });
   }
 

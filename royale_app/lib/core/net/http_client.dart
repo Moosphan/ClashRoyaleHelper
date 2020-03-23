@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:dio/native_imp.dart';
 import 'package:flutter/foundation.dart';
-import 'package:royale_app/core/model/error_response.dart';
+import 'package:royale_app/core/model/base/error_response.dart';
 import 'package:royale_app/core/net/exceptions.dart';
 import 'package:royale_app/core/resource/constants.dart';
 import 'api.dart';
@@ -26,7 +26,7 @@ class TimeoryHttp extends DioForNative {
   }
 
   void initialize() {
-    options.baseUrl = RoyaleApi.BASE_URL;
+    options.baseUrl = RoyaleApi.PROXY_BASE_URL;
     interceptors.add(HeaderInterceptor());
   }
 }
@@ -36,7 +36,9 @@ class HeaderInterceptor extends InterceptorsWrapper {
   Future onRequest(RequestOptions options) async {
     options.connectTimeout = 1000 * 30;
     options.receiveTimeout = 1000 * 30;
-    options.headers['authorization'] = 'Bearer ${Constants.AUTH_KEY}';
+    //options.headers['authorization'] = 'Bearer ${Constants.AUTH_KEY}';
+    /// Use this new key to avoid official ip limit.
+    options.headers['authorization'] = 'Bearer ${Constants.PROXY_KEY}';
     debugPrint('<***Royale-api***> url--> ${options.baseUrl}${options.path} -->' +
         'params--> ${options.queryParameters}' + 'data--> ${options.data}' + 'header--> ${options.headers}');
     return options;
