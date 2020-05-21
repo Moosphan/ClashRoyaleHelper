@@ -19,7 +19,7 @@ class LocationListPage extends StatelessWidget {
         title: Text(S.of(context).locationTitle, style: AppTheme.title,),
         centerTitle: true,
         backgroundColor: Colors.white,
-        elevation: 0.6,
+        elevation: 0.2,
         leading: IconButton(
             icon: ImageIcon(AssetImage(ImageAssets.ic_arrow_back), color: AppTheme.primaryColor),
             onPressed: () {
@@ -48,14 +48,16 @@ class LocationListPage extends StatelessWidget {
                 shrinkWrap: true,
                 itemCount: model.locationList.length,
                 padding: EdgeInsets.symmetric(horizontal: AutoSize.covert.dpToDp(12), vertical: AutoSize.covert.dpToDp(12)),
-                itemBuilder: (context, index) => ListTile(
-                  dense: true,
-                  onTap: () {
-                    Navigator.pop<Location>(context, model.locationList[index]);
-                  },
-                  trailing: Icon(Icons.arrow_forward_ios, color: AppTheme.textHintColor, size: 12),
-                  title: Text(model.locationList[index].name),
-                  // todo: add country flag
+                itemBuilder: (context, index) => Material(
+                  color: Colors.transparent,
+                  child: ListTile(
+                    dense: true,
+                    onTap: () {
+                      Navigator.pop<Location>(context, model.locationList[index]);
+                    },
+                    trailing: Icon(Icons.arrow_forward_ios, color: AppTheme.textHintColor, size: 12),
+                    title: Text(model.locationList[index].name),
+                  ),
                 ),
               );
             }

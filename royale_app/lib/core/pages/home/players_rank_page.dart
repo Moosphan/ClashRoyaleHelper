@@ -1,6 +1,5 @@
 // Copyright 2020 Moosphon. All rights reserved.
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -11,7 +10,6 @@ import 'package:royale_app/core/pages/player/player_detail_page.dart';
 import 'package:royale_app/core/provider/extension/partial_consumer_widget.dart';
 import 'package:royale_app/core/resource/image_assets.dart';
 import 'package:royale_app/core/resource/style.dart';
-import 'package:royale_app/core/service/hidden_repository.dart';
 import 'package:royale_app/core/util/screen_adapt.dart';
 import 'package:royale_app/core/util/screen_utils.dart';
 import 'package:royale_app/core/viewmodel/rank_vm.dart';
@@ -203,27 +201,21 @@ class _PlayersRankPageState extends State<PlayersRankPage> {
                 width: AutoSize.covert.dpToDp(48),
                 height: AutoSize.covert.dpToDp(56),
                 alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    //image: AssetImage(ImageAssets.holder_clan),
-                    image: _topPlayerList.items[index].clan == null
-                        ? AssetImage(ImageAssets.holder_clan)
-                        : CachedNetworkImageProvider(HiddenDataRepository.current.getBadgeIconUrl(context, _topPlayerList.items[index].clan.badgeId)
-                    )
-                  )
-                ),
+//                decoration: BoxDecoration(
+//                  image: DecorationImage(
+//                    //image: AssetImage(ImageAssets.holder_clan),
+//                    image: _topPlayerList.items[index].clan == null
+//                        ? AssetImage(ImageAssets.holder_clan)
+//                        : CachedNetworkImageProvider(HiddenDataRepository.current.getBadgeIconUrl(context, _topPlayerList.items[index].clan.badgeId)
+//                    )
+//                  )
+//                ),
                 child: Text(
                   _topPlayerList.items[index].rank.toString(),
                   style: _buildRankTextStyle(index),
                 ),
               ),
               ScreenUtils.horizontalSpace(AutoSize.covert.dpToDp(6)),
-//            RoundedAvatar(
-//              imageResource: ImageAssets.avatar_default,
-//              width: AutoSize.covert.dpToDp(40),
-//              height: AutoSize.covert.dpToDp(40),
-//              borderColor: Colors.transparent,
-//            ),
               Expanded(
                 child: Container(
                   constraints: BoxConstraints.expand(),

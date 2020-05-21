@@ -9,8 +9,7 @@ class RoyaleApi {
   static const BASE_URL = 'https://api.clashroyale.com/v1/';
   /// Use this proxy url instead of official url because of ip limit.
   /// And create a key with ip: 128.128.128.128
-  //static const PROXY_BASE_URL = 'https://proxy.royaleapi.dev/v1/';
-  static const PROXY_BASE_URL = 'http://8ymhur.natappfree.cc/v1/';
+  static const PROXY_BASE_URL = 'https://proxy.royaleapi.dev/v1/';
 
   /// 玩家数据
 

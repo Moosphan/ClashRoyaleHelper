@@ -29,13 +29,6 @@ void main() async {
       designDevicePixelRatio: 2,
       aspect: Aspect.aspectWidth
   );
-  /// adapt for status bar
-  if (Platform.isAndroid) {
-    SystemChrome.setSystemUIOverlayStyle(
-        SystemUiOverlayStyle(
-            statusBarColor: Colors.transparent,
-            statusBarBrightness: Brightness.light));
-  }
   runApp(MyApp());
 }
 

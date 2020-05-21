@@ -80,85 +80,8 @@ class _PlayerDetailPageState extends State<PlayerDetailPage> {
           builder: (context, model, _) => model.isLoading || model.playerDetail == null ? _buildLoadingHolder() : SingleChildScrollView(
             child: Column(
               children: <Widget>[
-                Container(
-                  color: Colors.white,
-                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 16),
-                  child: Row(
-                    children: <Widget>[
-                      Image(
-                        width: 30,
-                        height: 35,
-                        image: AssetImage(ImageAssets.holder_clan),
-                      ),
-                      ScreenUtils.horizontalSpace(AutoSize.covert.dpToDp(6)),
-                      Expanded(
-                        child: Container(
-                          margin: EdgeInsets.symmetric(horizontal: AutoSize.covert.dpToDp(10)),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Row(
-                                children: <Widget>[
-                                  Flexible(
-                                    child: Text(model.playerDetail.name,
-                                      style: AppTheme.body1.copyWith(fontWeight: FontWeight.w600),
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      softWrap: true,
-                                    ),
-                                  ),
-                                  ScreenUtils.horizontalSpace(AutoSize.covert.dpToDp(6)),
-                                  Container(
-                                    width: 20,
-                                    height: 20,
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                          image: AssetImage(ImageAssets.ic_cr_tower_level),
-                                        )
-                                    ),
-                                    child: Text(model.playerDetail.expLevel.toString(),
-                                        style: TextStyle(color: Colors.white, fontSize: 8, fontWeight: FontWeight.w800)
-                                    ),
-                                  )
-                                ],
-                              ),
-                              ScreenUtils.verticalSpace(AutoSize.covert.dpToDp(10)),
-                              Row(
-                                children: <Widget>[
-                                  Text(
-                                    model.playerDetail.clan.name,
-                                    style: AppTheme.smallDark,
-                                  ),
-                                  ScreenUtils.horizontalSpace(4),
-                                  Text('[${HiddenDataRepository.current.finClanRole(model.playerDetail.role)}]', style: AppTheme.small,)
-                                ],
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: <Widget>[
-                          Text('${S.of(context).playerDetailTag}: ${model.playerDetail.tag}', style: AppTheme.small),
-                          ScreenUtils.verticalSpace(AutoSize.covert.dpToDp(6)),
-                          Container(
-                            padding: EdgeInsets.symmetric(vertical: 4, horizontal: 3),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(4),
-                              color: AppTheme.surfaceColor
-                            ),
-                            child: Text(S.of(context).playerDetailClickCopy,
-                              style: AppTheme.micro.copyWith(color: AppTheme.textSecondaryColor),
-                            ),
-                          )
-                        ],
-                      )
-                    ],
-                  ),
-                ),
+                // 玩家个人信息
+                _buildPlayerInfo(model),
                 // 宝箱
                 _buildFutureChestsArea(model),
                 // 基本信息
@@ -177,6 +100,88 @@ class _PlayerDetailPageState extends State<PlayerDetailPage> {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildPlayerInfo(PlayerViewModel model) {
+    return Container(
+      color: Colors.white,
+      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+      child: Row(
+        children: <Widget>[
+          Image(
+            width: 30,
+            height: 35,
+            image: AssetImage(ImageAssets.holder_clan),
+          ),
+          ScreenUtils.horizontalSpace(AutoSize.covert.dpToDp(6)),
+          Expanded(
+            child: Container(
+              margin: EdgeInsets.symmetric(horizontal: AutoSize.covert.dpToDp(10)),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      Flexible(
+                        child: Text(model.playerDetail.name,
+                          style: AppTheme.body1.copyWith(fontWeight: FontWeight.w600),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          softWrap: true,
+                        ),
+                      ),
+                      ScreenUtils.horizontalSpace(AutoSize.covert.dpToDp(6)),
+                      Container(
+                        width: 20,
+                        height: 20,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: AssetImage(ImageAssets.ic_cr_tower_level),
+                            )
+                        ),
+                        child: Text(model.playerDetail.expLevel.toString(),
+                            style: TextStyle(color: Colors.white, fontSize: 8, fontWeight: FontWeight.w800)
+                        ),
+                      )
+                    ],
+                  ),
+                  ScreenUtils.verticalSpace(AutoSize.covert.dpToDp(10)),
+                  Row(
+                    children: <Widget>[
+                      Text(
+                        model.playerDetail.clan.name,
+                        style: AppTheme.smallDark,
+                      ),
+                      ScreenUtils.horizontalSpace(4),
+                      Text('[${HiddenDataRepository.current.finClanRole(model.playerDetail.role)}]', style: AppTheme.small,)
+                    ],
+                  )
+                ],
+              ),
+            ),
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: <Widget>[
+              Text('${S.of(context).playerDetailTag}: ${model.playerDetail.tag}', style: AppTheme.small),
+              ScreenUtils.verticalSpace(AutoSize.covert.dpToDp(6)),
+              Container(
+                padding: EdgeInsets.symmetric(vertical: 4, horizontal: 3),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(4),
+                    color: AppTheme.surfaceColor
+                ),
+                child: Text(S.of(context).playerDetailClickCopy,
+                  style: AppTheme.micro.copyWith(color: AppTheme.textSecondaryColor),
+                ),
+              )
+            ],
+          )
+        ],
       ),
     );
   }

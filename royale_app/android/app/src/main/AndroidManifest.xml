@@ -7,7 +7,7 @@
          FlutterApplication and put your custom class here. -->
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="royale_app"
+        android:label="皇室数据盒子"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

@@ -185,23 +185,12 @@ class _ClansRankPageState extends State<ClansRankPage> {
               width: AutoSize.covert.dpToDp(48),
               height: AutoSize.covert.dpToDp(56),
               alignment: Alignment.center,
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage(ImageAssets.holder_clan),
-                  )
-              ),
               child: Text(
                 _topClansList.items[index].rank.toString(),
                 style: _buildRankTextStyle(index),
               ),
             ),
             ScreenUtils.horizontalSpace(AutoSize.covert.dpToDp(6)),
-//            RoundedAvatar(
-//              imageResource: ImageAssets.avatar_default,
-//              width: AutoSize.covert.dpToDp(40),
-//              height: AutoSize.covert.dpToDp(40),
-//              borderColor: Colors.transparent,
-//            ),
             Expanded(
               child: Container(
                 constraints: BoxConstraints.expand(),
